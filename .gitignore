@@ -1,0 +1,5 @@
+.env
+db/
+.panel_path
+.DS_Store
+.idea

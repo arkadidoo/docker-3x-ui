@@ -1,7 +1,7 @@
 services:
   3xui:
-    image: ghcr.io/mhsanaei/3x-ui:latest
-    container_name: 3xui_app
+    image: ${XUI_IMAGE:-ghcr.io/mhsanaei/3x-ui:latest}
+    container_name: ${CONTAINER_NAME:-3xui_app}
     restart: unless-stopped
     tty: true
     cap_add:
@@ -9,14 +9,19 @@ services:
       - NET_RAW
     volumes:
       - ./db:/etc/x-ui
-      - /root/cert:/root/cert:ro
+      # Host cert directory is mounted read-only as /root/cert inside the container.
+      # Change CERT_DIR in .env if your certs live elsewhere.
+      - ${CERT_DIR:-/root/cert}:/root/cert:ro
     environment:
-      XRAY_VMESS_AEAD_FORCED: "false"
-      XUI_ENABLE_FAIL2BAN: "true"
+      XRAY_VMESS_AEAD_FORCED: "${XRAY_VMESS_AEAD_FORCED:-false}"
+      XUI_ENABLE_FAIL2BAN: "${XUI_ENABLE_FAIL2BAN:-true}"
     ports:
-      - "2057:2053"
+      # PANEL_PORT → 2053 (panel web UI port inside the container).
+      # For proxy traffic ports, either add them here or switch to network_mode: host.
+      # See README for details.
+      - "${PANEL_PORT:-2057}:2053"
     logging:
       driver: "json-file"
       options:
-        max-size: "10m"
-        max-file: "3"
+        max-size: "${LOG_MAX_SIZE:-10m}"
+        max-file: "${LOG_MAX_FILES:-3}"
