@@ -34,7 +34,7 @@ nano .env   # set ACME_EMAIL at minimum; review other defaults
 sudo ./setup_ssl.sh
 ```
 
-Issues a [short-lived IP certificate](https://letsencrypt.org/2024/11/06/short-lived-certificates/) from Let's Encrypt. Port 80 must be free and reachable from the internet.
+Issues a [short-lived IP certificate](https://letsencrypt.org/2026/01/15/6day-and-ip-general-availability) from Let's Encrypt. Port 80 must be free and reachable from the internet.
 
 ### 3. Launch the Panel
 
